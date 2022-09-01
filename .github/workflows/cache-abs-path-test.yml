@@ -37,7 +37,7 @@ jobs:
 
       - run: echo '//registry.npmjs.org/:_authToken=${{ secrets.NPM_INSTALL_TOKEN  }}' > ~/.npmrc
 
-      - uses: Labshare/auth-monorepo/.github/workflows/pnpm-cache.yml
+      - uses: kpayson/workflow-cache-tests/.github/workflows/pnpm-cache.yml
 
       - name: Install dependencies
         working-directory: ./
