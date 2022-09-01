@@ -1,0 +1,50 @@
+name: Cache Relative Path Test
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths: ['packages/auth/**', 'pnpm-lock.yaml']
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: macos-latest
+
+    defaults:
+      run:
+        working-directory: ./my-app    
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          always-auth: true
+          registry-url: https://registry.npmjs.org
+          # TODO: Enable node_modules caching once confirmed that pnpm is working correctly
+          # cache: 'npm'
+
+
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 6.32.22
+
+      - run: echo '//registry.npmjs.org/:_authToken=${{ secrets.NPM_INSTALL_TOKEN  }}' > ~/.npmrc
+
+      - name: pnpm cache
+        working-dir: ./
+        uses: ./.github/workflows/pnpm-cache.yml
+
+      - name: Install dependencies
+        working-directory: ./
+        run: pnpm i
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_INSTALL_TOKEN}}
+
+
