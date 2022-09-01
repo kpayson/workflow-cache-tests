@@ -3,7 +3,6 @@ name: Cache Relative No-default
 on:
   pull_request:
     branches: [ main ]
-    paths: ['packages/auth/**', 'pnpm-lock.yaml']
   workflow_dispatch:
 
 jobs:
