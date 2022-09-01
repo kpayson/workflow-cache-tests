@@ -1,4 +1,4 @@
-name: Cache Relative Path Test
+name: Cache Change Working Dir Test
 
 on:
   pull_request:

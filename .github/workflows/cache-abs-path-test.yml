@@ -1,4 +1,4 @@
-name: Cache Relative Path Test
+name: Cache Abs Path Test
 
 on:
   pull_request:
